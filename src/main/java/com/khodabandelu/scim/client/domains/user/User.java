@@ -49,7 +49,7 @@ public class User implements UserDetails {
     @ElementCollection(targetClass = Roles.class)
     @CollectionTable(name = "user_roles", joinColumns = @JoinColumn(name = "user_id"))
     @Enumerated(EnumType.STRING)
-    @Column(name = "roles")
+    @Column(name = "role")
     private Set<Roles> roles;
 
     @Override

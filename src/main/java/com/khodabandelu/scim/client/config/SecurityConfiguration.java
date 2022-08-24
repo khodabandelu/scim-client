@@ -30,6 +30,7 @@ public class SecurityConfiguration {
                 .disable()
                 .authorizeRequests()
                 .antMatchers("/api/account/authenticate").permitAll()
+                .antMatchers("/api/organizations/**/provisioner/**").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .httpBasic()

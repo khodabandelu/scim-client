@@ -1,6 +1,8 @@
 package com.khodabandelu.scim.client.security.token;
 
 
+import com.khodabandelu.scim.client.api.exceptions.ProvisionerJwtException;
+import com.khodabandelu.scim.client.api.services.ProvisionerService;
 import com.khodabandelu.scim.client.domains.user.User;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.JwtException;
@@ -13,6 +15,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.stereotype.Component;
+import org.springframework.util.StringUtils;
 
 import java.security.Key;
 import java.util.Arrays;
@@ -28,6 +31,12 @@ public class TokenService {
 
     @Value("${scim.jwt.secret}")
     private String secret;
+
+    private final ProvisionerService provisionerService;
+
+    public TokenService(ProvisionerService provisionerService) {
+        this.provisionerService = provisionerService;
+    }
 
     public String generateToken(Authentication authentication) {
         User user = (User) authentication.getPrincipal();
@@ -60,6 +69,20 @@ public class TokenService {
         } catch (JwtException | IllegalArgumentException e) {
             logger.log(Level.WARNING, "Validate token is failed");
             return null;
+        }
+    }
+
+
+    public void validateProvisionerToken(String bearerToken, String organizationId, String provisionerId) {
+        if (StringUtils.hasText(bearerToken) && bearerToken.startsWith("Bearer ")) {
+            var token = bearerToken.substring(7);
+            var secret = this.provisionerService.findByOrganizationIdAndProvisionerId(organizationId, provisionerId).orElseThrow(() -> {
+                throw new ProvisionerJwtException("Validate provisioner's token is failed");
+            });
+            Key key = Keys.hmacShaKeyFor(Decoders.BASE64.decode(secret.getSecret()));
+            Jwts.parserBuilder().setSigningKey(key).build().parse(token);
+        } else {
+            throw new JwtException("Validate provisioner token is failed");
         }
     }
 

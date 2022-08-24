@@ -16,6 +16,10 @@ spring:
     console:
       enabled: true
 
+scim:
+  jwt:
+    secret: SGVsbG8gbXkgbmFtZSBpcyBNYWhkaSBLaG9kYWJhbmRlbHUuClRoaXMgaXMgbXkgc2VjcmV0IGtleS4KTWF5YmUgc29tZXRpbWVzIHlvdSBjYW4gcmVhY2ggdGhpcyBrZXkgYW5kIGZpbmQgd2hhdCBJIHNheS4KTWF5YmUuCkkgaG9wZSB5b3UgY2FuIGRvIHRoYXQuCkJ5ZSBteSBzb24u
+
 logging:
   level:
     root: info

@@ -1,0 +1,9 @@
+version: "3.8"
+
+services:
+  scim:
+    container_name: scim
+    build: .
+    restart: always
+    ports:
+        - "8288:8288"

@@ -13,12 +13,12 @@ The following endpoints are implemented.
 The schema of the user entry as you can provision user by provision user endpoint is:
 ```json
 {
-  “email”: string,
-  “name”: {
-    “firstName”: string,
-    “lastName”: string,
+  "email": string,
+  "name": {
+    "firstName": string,
+    "lastName": string,
   }
-  “id”: string // id in external identity system
+  "id": string // id in external identity system
 }
 ```
 the response in the following format:
@@ -31,8 +31,8 @@ When user is created
     “firstName”: string,
     “lastName”: string,
   }
-  “id”: string // id in external identity system
-  “applicationId”: string // id in Happeo
+  "id": string // id in external identity system
+  "applicationId": string // id in Happeo
 }
 ```
 ## Build and Run 
